@@ -1,31 +1,36 @@
 <div id="gdpr" class="hide navbar-fixed-bottom footer">
     <h3>Privacy Policy</h3>
-    We value and respect your privacy. Analytics is used to track consumers of our site and improve its content. We do not share, nor sell data to third parties, nor link to any personal information on the collected data.
+    We value and respect your privacy. Analytics is used to track consumers of our site and improve its content. We do
+    not share, nor sell data to third parties, nor link to any personal information on the collected data.
     Thank you for your interest in NATS.
     </p>
     <form>
-        <div class="checkbox">
-            <label><input id="disable_analytics" value="true" type="checkbox">Disable analytics</label>
+        <div>
+            <div class="checkbox">
+                <label><input id="disable_analytics" value="true" type="checkbox">Disable analytics</label>
+            </div>
+            <span class="pull-right">
+            <button type="button" class="btn btn-success" onclick="gdprOK()">OK</button>
+        </span>
         </div>
     </form>
-    <p class="clearfix">
-    <span class="pull-right">
-        <button type="button" class="btn btn-success" onclick="gdprOK()">OK</button>
-    </span>
-    </p>
 </div>
 
-
 <script>
+function getGAKey() {
+    return "UA-111730698-1";
+}
+
+function getGAKeyDisableKey() {
+    return "ga-disable-" + getGAKey();
+}
 function getCookie() {
     var cookies = document.cookie;
     var a = cookies.split(";");
-    var tc = a.find(function (e) {
+    return a.find(function (e) {
         e = e.trim();
         return e.startsWith("ga-disable=");
     });
-
-    return tc;
 }
 
 function updateCheckbox(tc) {
@@ -39,8 +44,8 @@ function updateCheckbox(tc) {
 
 function addGA() {
     // now load google analytics script
-    if (!$('#gascript', {async: '', id: 'gascript'}).length) {
-        var s = document.createElement('script');
+    if (!$('#gascript').length) {
+        var s = document.createElement('script', {async: '', id: 'gascript'});
         s.type = 'text/javascript';
         s.src = 'https://www.google-analytics.com/analytics.js';
         $('body').append(s);
@@ -53,7 +58,7 @@ function checkTrack() {
 
     // set it up early
     var disable = $('#disable_analytics').is(':checked');
-    window['ga-disable-UA-111730698-1'] = disable;
+    window[getGAKeyDisableKey()] = disable;
 
     if (!tc) {
         openPrivacy(tc);
@@ -61,7 +66,7 @@ function checkTrack() {
         var disable = tc.trim().split('=')[1] === "true";
         // set a property on the window to disable ga
         // https://developers.google.com/analytics/devguides/collection/analyticsjs/user-opt-out
-        window['ga-disable-UA-111730698-1'] = disable;
+        window[getGAKeyDisableKey()] = disable;
         addGA();
     }
 }
@@ -83,7 +88,7 @@ function oneYearFromNow() {
 
 function gdprOK() {
     var disable = $('#disable_analytics').is(':checked');
-    window['ga-disable-UA-111730698-1'] = disable;
+    window[getGAKeyDisableKey()] = disable;
     $('#gdpr').addClass('hide');
     $('body').css('padding-bottom', '0px');
     var d = new Date();

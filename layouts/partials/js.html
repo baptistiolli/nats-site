@@ -2,7 +2,6 @@
 
 <script>
     $(document).ready(function() {
-        console.log('ready!');
         checkTrack();
     });
 
@@ -21,7 +20,7 @@
 <!-- Google Analytics Configuration - scripts added dynamically after user opts in or out-->
 <script>
     window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-111730698-1', {
+    ga('create', getGAKey(), {
         cookieExpires: 0
     });
     ga('set', 'anonymizeIp', true);
